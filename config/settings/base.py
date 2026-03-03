@@ -48,6 +48,11 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.countries",
     "apps.indicators",
+    "apps.logs",
+    "apps.alerts",
+    "apps.exchange",
+    "apps.risk",
+    "apps.portfolios",
 ]
 
 MIDDLEWARE = [
