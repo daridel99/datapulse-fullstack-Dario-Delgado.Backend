@@ -11,7 +11,11 @@ class IndiceRiesgo(models.Model):
         ALTO = "ALTO"
         CRITICO = "CRITICO"
 
-    pais = models.ForeignKey(Pais, on_delete=models.CASCADE, related_name="indices_riesgo")
+    pais = models.ForeignKey(
+        Pais, 
+        on_delete=models.CASCADE, 
+        related_name="indices_riesgo")
+    
     fecha_calculo = models.DateTimeField(auto_now_add=True)
 
     score_economico = models.FloatField()
@@ -19,7 +23,10 @@ class IndiceRiesgo(models.Model):
     score_estabilidad = models.FloatField()
     indice_compuesto = models.FloatField()
 
-    nivel_riesgo = models.CharField(max_length=20, choices=NivelRiesgo.choices)
+    nivel_riesgo = models.CharField(
+        max_length=20, 
+        choices=NivelRiesgo.choices)
+    
     detalle_calculo = models.JSONField()
 
     class Meta:
@@ -27,9 +34,27 @@ class IndiceRiesgo(models.Model):
             models.CheckConstraint(
                 check=Q(indice_compuesto__gte=0) & Q(indice_compuesto__lte=100),
                 name="indice_compuesto_entre_0_100"
+            ),
+            models.CheckConstraint(
+                check=Q(score_economico__gte=0) & Q(score_economico__lte=100),
+                name="score_economico_entre_0_100"
+            ),
+            models.CheckConstraint(
+                check=Q(score_cambiario__gte=0) & Q(score_cambiario__lte=100),
+                name="score_cambiario_entre_0_100"
+            ),
+            models.CheckConstraint(
+                check=Q(score_estabilidad__gte=0) & Q(score_estabilidad__lte=100),
+                name="score_estabilidad_entre_0_100"
             )
         ]
+
         ordering = ["-fecha_calculo"]
 
+        indexes = [
+                models.Index(fields=["pais"]),
+                models.Index(fields=["-fecha_calculo"]),
+            ]
+
     def __str__(self):
-        return f"{self.pais.nombre} - {self.indice_compuesto}"
+        return f"{self.pais.codigo_iso} - {self.indice_compuesto} ({self.nivel_riesgo})"

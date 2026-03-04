@@ -24,3 +24,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    def save(self, *args, **kwargs):
+        self.is_active = self.activo
+        super().save(*args, **kwargs)
