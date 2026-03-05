@@ -12,5 +12,5 @@ class PortafolioAdmin(admin.ModelAdmin):
 @admin.register(Posicion)
 class PosicionAdmin(admin.ModelAdmin):
     list_display = ("portafolio", "pais", "tipo_activo", "monto_inversion_usd")
-    list_filter = ("tipo_activo",)
-    search_fields = ("portafolio__nombre",)
+    list_filter = ("tipo_activo", "pais",)
+    search_fields = ("portafolio__nombre", "pais__nombre")

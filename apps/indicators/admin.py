@@ -5,5 +5,5 @@ from .models import IndicadorEconomico
 @admin.register(IndicadorEconomico)
 class IndicadorAdmin(admin.ModelAdmin):
     list_display = ("pais", "tipo", "anio", "valor")
-    list_filter = ("tipo", "anio")
-    search_fields = ("pais__nombre",)
+    list_filter = ("tipo", "anio", "fuente")
+    search_fields = ("pais__nombre", "pais__codigo_iso")
