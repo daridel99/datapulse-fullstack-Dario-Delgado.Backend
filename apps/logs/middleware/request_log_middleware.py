@@ -19,10 +19,6 @@ class RequestLogMiddleware:
         duration = round(time.time() - start_time, 3)
 
         user = request.user if request.user.is_authenticated else None
-        entidad_id = user.id if user else None
-
-        if request.user.is_authenticated:
-            user = request.user
 
         try:
 
@@ -30,7 +26,7 @@ class RequestLogMiddleware:
                 usuario=user,
                 accion="CONSULTAR",
                 entidad=request.path,
-                entidad_id=entidad_id,
+                entidad_id=user.id if user else None,
                 detalle={
                     "metodo": request.method,
                     "duracion": duration,
@@ -40,7 +36,6 @@ class RequestLogMiddleware:
             )
 
         except Exception as e:
-
             logger.error(f"Error registrando log request: {str(e)}")
 
         logger.info(

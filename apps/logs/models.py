@@ -12,10 +12,10 @@ class LogActividad(models.Model):
         LOGIN = "LOGIN"
         EXPORT = "EXPORT"
 
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    usuario = models.ForeignKey( settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     accion = models.CharField(max_length=20, choices=Accion.choices)
     entidad_afectada = models.CharField(max_length=100)
-    entidad_id = models.CharField(max_length=50)
+    entidad_id = models.CharField(max_length=50, null=True, blank=True)
     detalle = models.JSONField(blank=True, null=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
