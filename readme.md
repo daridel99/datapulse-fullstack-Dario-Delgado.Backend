@@ -16,7 +16,7 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py seed_users
 python manage.py runserver
-
+```
 
 ## Usuarios de prueba:
 
@@ -28,9 +28,9 @@ python manage.py runserver
 
 
 ## Estructura del Proyecto
-
+``` text
 git ls-files > estructura.txt
-
+```
 ``` text
 .
 ├── .env.example
