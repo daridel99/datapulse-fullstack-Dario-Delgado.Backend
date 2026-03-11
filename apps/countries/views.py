@@ -12,7 +12,15 @@ from django.core.management import call_command
 from rest_framework.permissions import IsAdminUser
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+import threading
 
+sync_lock = threading.Lock()
+
+def run_sync():
+    with sync_lock:
+        call_command("sync_paises")
+        call_command("sync_indicadores")
+        
 class PaisViewSet(viewsets.ModelViewSet):
     queryset = Pais.objects.all()
     serializer_class = PaisSerializer
@@ -79,8 +87,8 @@ class PaisViewSet(viewsets.ModelViewSet):
     @action( detail=False, methods=["post"], url_path="sync-indicadores", permission_classes=[IsAdminUser])
     def sync_indicadores(self, request):
 
-        call_command("sync_paises")
-        call_command("sync_indicadores")
+        thread = threading.Thread(target=run_sync, daemon=True)
+        thread.start()
 
         return Response({
             "mensaje": "Sincronización de indicadores Finalizados"
