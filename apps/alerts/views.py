@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Alerta
 from .serializers import AlertaSerializer
-
+from django.db.models import Q
 
 class AlertaViewSet(viewsets.ModelViewSet):
 
@@ -11,7 +11,7 @@ class AlertaViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Alerta.objects.filter(usuario=user)
+        return Alerta.objects.filter(Q(usuario=user) | Q(usuario__isnull=True))
 
     @action(detail=True, methods=["put"])
     def leer(self, request, pk=None):
