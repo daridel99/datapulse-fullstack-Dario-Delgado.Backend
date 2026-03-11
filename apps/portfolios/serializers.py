@@ -7,6 +7,7 @@ class PosicionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posicion
         fields = "__all__"
+        read_only_fields = ["portafolio"]
 
 
 class PortafolioSerializer(serializers.ModelSerializer):
@@ -16,3 +17,4 @@ class PortafolioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Portafolio
         fields = "__all__"
+        read_only_fields = ["usuario"]
